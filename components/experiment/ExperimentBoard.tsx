@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { downloadExperimentResult } from "@/lib/experiment/downloadResult";
 import { calculateDistanceToAnchor } from "@/lib/experiment/distance";
 import { generateCircularPositions } from "@/lib/experiment/circularLayout";
 import {
@@ -11,7 +10,7 @@ import {
 } from "@/lib/experiment/normalize";
 import type {
   ExperimentData,
-  ExperimentResult,
+  FamilyResult,
   Position,
 } from "@/lib/experiment/types";
 import { AnchorToken } from "./AnchorToken";
@@ -20,15 +19,19 @@ import { DebugPanel } from "./DebugPanel";
 import { VariantToken } from "./VariantToken";
 
 interface ExperimentBoardProps {
-  data: ExperimentData;
+  trial: ExperimentData;
   participantId: string;
-  trialId: string;
+  familyIndex: number;
+  totalFamilies: number;
+  onFamilyComplete: (result: FamilyResult) => void;
 }
 
 export function ExperimentBoard({
-  data,
+  trial,
   participantId,
-  trialId,
+  familyIndex,
+  totalFamilies,
+  onFamilyComplete,
 }: ExperimentBoardProps) {
   const boardRef = useRef<HTMLDivElement>(null);
   const initialBoardSizeRef = useRef<{ width: number; height: number } | null>(
@@ -55,14 +58,14 @@ export function ExperimentBoard({
     const radius = Math.min(width, height) * 0.32;
 
     const circularPositions = generateCircularPositions(
-      data.variants.length,
+      trial.variants.length,
       centerX,
       centerY,
       radius,
     );
 
     const initialPositions: Record<string, Position> = {};
-    data.variants.forEach((variant, index) => {
+    trial.variants.forEach((variant, index) => {
       initialPositions[variant.id] = circularPositions[index];
     });
 
@@ -70,12 +73,14 @@ export function ExperimentBoard({
     setAnchorPosition({ x: centerX, y: centerY });
     setBoardSize({ width, height });
     initialBoardSizeRef.current = { width, height };
+    setHasResized(false);
     setIsReady(true);
-  }, [data.variants]);
+  }, [trial.variants]);
 
   useEffect(() => {
+    setIsReady(false);
     initializePositions();
-  }, [initializePositions]);
+  }, [initializePositions, trial.trialId]);
 
   useEffect(() => {
     if (!isReady) {
@@ -107,7 +112,7 @@ export function ExperimentBoard({
       resizeObserver.disconnect();
       window.removeEventListener("resize", handleResize);
     };
-  }, [isReady]);
+  }, [isReady, trial.trialId]);
 
   const handlePositionChange = useCallback((id: string, position: Position) => {
     setPositions((previous) => ({
@@ -116,23 +121,23 @@ export function ExperimentBoard({
     }));
   }, []);
 
-  const buildResult = useCallback((): ExperimentResult => {
+  const buildResult = useCallback((): FamilyResult => {
     const anchor = anchorPosition ?? { x: 0, y: 0 };
     const boardWidth = boardSize?.width ?? 0;
     const boardHeight = boardSize?.height ?? 0;
 
     return {
+      trialId: trial.trialId,
       participantId,
-      trialId,
       boardWidth,
       boardHeight,
       anchor: {
-        text: data.anchor,
+        text: trial.anchor,
         x: anchor.x,
         y: anchor.y,
       },
       completedAt: new Date().toISOString(),
-      items: data.variants.map((variant) => {
+      items: trial.variants.map((variant) => {
         const position = positions[variant.id] ?? { x: 0, y: 0 };
         const distanceToAnchor = calculateDistanceToAnchor(position, anchor);
 
@@ -152,21 +157,26 @@ export function ExperimentBoard({
         };
       }),
     };
-  }, [participantId, trialId, data, positions, anchorPosition, boardSize]);
+  }, [participantId, trial, positions, anchorPosition, boardSize]);
 
   const handleComplete = useCallback(() => {
-    downloadExperimentResult(buildResult());
-  }, [buildResult]);
+    onFamilyComplete(buildResult());
+  }, [buildResult, onFamilyComplete]);
 
   return (
     <div
       ref={boardRef}
       className="relative h-screen w-full overflow-hidden bg-slate-100"
     >
-      <AnchorToken text={data.anchor} />
+      <div className="absolute left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white/95 px-3 py-2 text-sm text-slate-700 shadow-sm">
+        Family {familyIndex + 1} / {totalFamilies}
+        <span className="ml-2 font-medium text-slate-900">{trial.trialId}</span>
+      </div>
+
+      <AnchorToken text={trial.anchor} />
 
       {isReady &&
-        data.variants.map((variant) => {
+        trial.variants.map((variant) => {
           const position = positions[variant.id];
           if (!position) {
             return null;

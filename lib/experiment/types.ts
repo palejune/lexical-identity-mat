@@ -9,8 +9,18 @@ export interface VariantItem {
 }
 
 export interface ExperimentData {
+  trialId: string;
   anchor: string;
   variants: VariantItem[];
+}
+
+export interface TrialManifestEntry {
+  familyId: string;
+  file: string;
+}
+
+export interface TrialsManifest {
+  families: TrialManifestEntry[];
 }
 
 export interface ExperimentResultItem {
@@ -30,12 +40,18 @@ export interface ExperimentResultAnchor {
   y: number;
 }
 
-export interface ExperimentResult {
-  participantId: string;
+export interface FamilyResult {
   trialId: string;
+  participantId: string;
   boardWidth: number;
   boardHeight: number;
   anchor: ExperimentResultAnchor;
   completedAt: string;
   items: ExperimentResultItem[];
+}
+
+export interface ParticipantResult {
+  participantId: string;
+  completedAt: string;
+  families: FamilyResult[];
 }

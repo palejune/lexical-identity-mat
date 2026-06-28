@@ -1,0 +1,13 @@
+family_id,role,id,text,family_code,anchor,variant,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f00,anchor,a1,르크루제,f00,르크루제,르크루제,anchor,안쪽,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,원형
+f00,variant,v1,르쿠르제,f00,르크루제,르쿠르제,L1,안쪽,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,,2음절 ɯ→u rounding
+f00,variant,v2,리크루제,f00,르크루제,리크루제,L1,안쪽,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,,1음절 ɯ→i backness
+f00,variant,v3,르크루세,f00,르크루제,르크루세,L1,안쪽,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,,4음절 dʑ→s place+manner
+f00,variant,v4,르크르제,f00,르크루제,르크르제,L2,안쪽,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,,3음절 u→ɯ 중화+음절구조
+f00,variant,v5,르쿠루제,f00,르크루제,르쿠루제,L2,안쪽,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1.0,2음절 모음삽입 vowel_adaptation
+f00,variant,v6,루크르제,f00,르크루제,루크르제,L2,안쪽(경계근처),0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,,"1,3음절 위치변화"
+f00,variant,v7,르꾸루제,f00,르크루제,르꾸루제,L3,안쪽,0,0,1,0,0,0,1,0,1,0,0,1,0,0,0,1.0,tensification+rounding
+f00,variant,v8,레크루제,f00,르크루제,레크루제,L3,안쪽,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1.0,French le→레 vowel_adaptation
+f00,variant,v9,르크루쥐,f00,르크루제,르크루쥐,L3,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1.0,French -et→-i vowel_adaptation
+f00,variant,v10,리꾸루줴,f00,르크루제,리꾸루줴,L1+L3,바깥,0,0,1,0,0,1,1,1,1,0,0,1,0,0,0,0.0,변수 누적 — 경계 바깥
+f00,variant,v11,르크루쩨,f00,르크루제,르크루쩨,L1 극단,바깥,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0.0,fortis화 — 한국어 이질적

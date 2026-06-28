@@ -1,0 +1,12 @@
+{
+  "families": [
+    {
+      "familyId": "f00",
+      "file": "families/f00.csv"
+    },
+    {
+      "familyId": "f01",
+      "file": "families/f01.csv"
+    }
+  ]
+}
