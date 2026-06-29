@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Lexical Identity Experiment",
-  description: "언어학 박사논문 실험용 웹앱",
+  description: "Research Experiment",
 };
 
 export default function RootLayout({
