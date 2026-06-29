@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { ExperimentBoard } from "@/components/experiment/ExperimentBoard";
 import { ExperimentEndScreen } from "@/components/experiment/ExperimentEndScreen";
-import { ExperimentStartScreen } from "@/components/experiment/ExperimentStartScreen";
+import { ExperimentInstructionsScreen } from "@/components/experiment/ExperimentInstructionsScreen";
+import { ParticipantInfoScreen } from "@/components/experiment/ParticipantInfoScreen";
 import { DebugPanel } from "@/components/experiment/DebugPanel";
 import { SaveStatusMessage } from "@/components/experiment/SaveStatusMessage";
 import { buildParticipantResult } from "@/lib/experiment/buildParticipantResult";
+import { generateParticipantId } from "@/lib/experiment/generateParticipantId";
 import {
   loadFamilyCsvFromUrl,
   loadTrialsManifest,
@@ -23,8 +25,14 @@ import type {
   TrialsManifest,
 } from "@/lib/experiment/types";
 
+type PreExperimentStep = "info" | "instructions";
+
 export default function Home() {
+  const [preExperimentStep, setPreExperimentStep] =
+    useState<PreExperimentStep>("info");
   const [participantId, setParticipantId] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
   const [hasStarted, setHasStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [manifest, setManifest] = useState<TrialsManifest | null>(null);
@@ -90,7 +98,13 @@ export default function Home() {
     };
   }, [manifest, hasStarted, isFinished, currentFamilyIndex]);
 
-  const trimmedParticipantId = participantId.trim();
+  const trimmedName = name.trim();
+  const participantAge = Number(age);
+
+  const handleProceedToInstructions = useCallback(() => {
+    setParticipantId(generateParticipantId());
+    setPreExperimentStep("instructions");
+  }, []);
 
   const handleFamilyComplete = useCallback(
     async (result: FamilyResult) => {
@@ -112,7 +126,9 @@ export default function Home() {
 
         if (isLastFamily) {
           const completedParticipantResult = buildParticipantResult(
-            trimmedParticipantId,
+            participantId,
+            trimmedName,
+            participantAge,
             updatedFamilyResults,
             new Date().toISOString(),
           );
@@ -140,7 +156,9 @@ export default function Home() {
       currentFamilyIndex,
       manifest,
       familyResults,
-      trimmedParticipantId,
+      participantId,
+      trimmedName,
+      participantAge,
     ],
   );
 
@@ -163,12 +181,20 @@ export default function Home() {
   }
 
   if (!hasStarted) {
+    if (preExperimentStep === "info") {
+      return (
+        <ParticipantInfoScreen
+          name={name}
+          age={age}
+          onNameChange={setName}
+          onAgeChange={setAge}
+          onContinue={handleProceedToInstructions}
+        />
+      );
+    }
+
     return (
-      <ExperimentStartScreen
-        participantId={participantId}
-        onParticipantIdChange={setParticipantId}
-        onStart={() => setHasStarted(true)}
-      />
+      <ExperimentInstructionsScreen onStart={() => setHasStarted(true)} />
     );
   }
 
@@ -176,7 +202,6 @@ export default function Home() {
     return (
       <div className="relative min-h-screen">
         <ExperimentEndScreen
-          participantId={trimmedParticipantId}
           saveStatus={saveStatus}
           saveErrorMessage={saveErrorMessage}
         />
@@ -207,7 +232,9 @@ export default function Home() {
       <ExperimentBoard
         key={currentTrial.trialId}
         trial={currentTrial}
-        participantId={trimmedParticipantId}
+        participantId={participantId}
+        name={trimmedName}
+        age={participantAge}
         familyIndex={currentFamilyIndex}
         totalFamilies={manifest.families.length}
         onFamilyComplete={handleFamilyComplete}

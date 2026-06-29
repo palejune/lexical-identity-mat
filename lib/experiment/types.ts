@@ -43,6 +43,8 @@ export interface ExperimentResultAnchor {
 export interface FamilyResult {
   trialId: string;
   participantId: string;
+  name: string;
+  age: number;
   boardWidth: number;
   boardHeight: number;
   anchor: ExperimentResultAnchor;
@@ -52,6 +54,8 @@ export interface FamilyResult {
 
 export interface ParticipantResult {
   participantId: string;
+  name: string;
+  age: number;
   completedAt: string;
   families: FamilyResult[];
 }

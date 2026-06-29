@@ -21,6 +21,8 @@ import { VariantToken } from "./VariantToken";
 interface ExperimentBoardProps {
   trial: ExperimentData;
   participantId: string;
+  name: string;
+  age: number;
   familyIndex: number;
   totalFamilies: number;
   onFamilyComplete: (result: FamilyResult) => void | Promise<void>;
@@ -29,6 +31,8 @@ interface ExperimentBoardProps {
 export function ExperimentBoard({
   trial,
   participantId,
+  name,
+  age,
   familyIndex,
   totalFamilies,
   onFamilyComplete,
@@ -129,6 +133,8 @@ export function ExperimentBoard({
     return {
       trialId: trial.trialId,
       participantId,
+      name,
+      age,
       boardWidth,
       boardHeight,
       anchor: {
@@ -157,7 +163,7 @@ export function ExperimentBoard({
         };
       }),
     };
-  }, [participantId, trial, positions, anchorPosition, boardSize]);
+  }, [participantId, name, age, trial, positions, anchorPosition, boardSize]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

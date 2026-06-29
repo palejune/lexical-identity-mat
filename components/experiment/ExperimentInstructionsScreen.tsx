@@ -1,0 +1,59 @@
+interface ExperimentInstructionsScreenProps {
+  onStart: () => void;
+}
+
+export function ExperimentInstructionsScreen({
+  onStart,
+}: ExperimentInstructionsScreenProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onStart();
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-8 sm:px-6">
+      <main className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
+          실험 안내
+        </h1>
+
+        <section
+          aria-labelledby="experiment-instructions-body"
+          className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:mt-8 sm:p-5"
+        >
+          <div
+            id="experiment-instructions-body"
+            className="space-y-3 text-sm leading-relaxed text-slate-700 sm:text-[0.9375rem]"
+          >
+            <p>화면 중앙에는 기준이 되는 표현이 제시됩니다.</p>
+            <p>
+              주변의 표현들을 중앙의 표현과 같은 대상을 가리키는 표현이라고
+              느끼는 정도에 따라 자유롭게 배치해 주세요.
+            </p>
+
+            <ul className="list-disc space-y-1.5 pl-5">
+              <li>같은 표현이라고 느낄수록 중앙에 가깝게</li>
+              <li>다른 표현이라고 느낄수록 중앙에서 멀리</li>
+            </ul>
+
+            <p>배치 방향에는 정답이 없습니다.</p>
+            <p>중앙 표현과의 거리를 중심으로 판단해 주세요.</p>
+            <p className="font-medium text-slate-800">
+              빠르게 답하기보다는 자연스럽게 느껴지는 위치에 배치해 주시면
+              됩니다.
+            </p>
+          </div>
+        </section>
+
+        <form className="mt-6 sm:mt-8" onSubmit={handleSubmit}>
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+          >
+            실험 시작
+          </button>
+        </form>
+      </main>
+    </div>
+  );
+}
