@@ -23,7 +23,7 @@ interface ExperimentBoardProps {
   participantId: string;
   familyIndex: number;
   totalFamilies: number;
-  onFamilyComplete: (result: FamilyResult) => void;
+  onFamilyComplete: (result: FamilyResult) => void | Promise<void>;
 }
 
 export function ExperimentBoard({
@@ -159,9 +159,20 @@ export function ExperimentBoard({
     };
   }, [participantId, trial, positions, anchorPosition, boardSize]);
 
-  const handleComplete = useCallback(() => {
-    onFamilyComplete(buildResult());
-  }, [buildResult, onFamilyComplete]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleComplete = useCallback(async () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await onFamilyComplete(buildResult());
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [buildResult, isSubmitting, onFamilyComplete]);
 
   return (
     <div
@@ -206,7 +217,10 @@ export function ExperimentBoard({
       {isReady && <DebugPanel result={buildResult()} />}
 
       {isReady && (
-        <CompleteButton onComplete={handleComplete} disabled={hasResized} />
+        <CompleteButton
+          onComplete={handleComplete}
+          disabled={hasResized || isSubmitting}
+        />
       )}
     </div>
   );

@@ -1,11 +1,16 @@
+import type { SaveStatus } from "@/lib/experiment/saveResult";
+import { SaveStatusMessage } from "./SaveStatusMessage";
+
 interface ExperimentEndScreenProps {
   participantId: string;
-  onDownload: () => void;
+  saveStatus: SaveStatus;
+  saveErrorMessage?: string | null;
 }
 
 export function ExperimentEndScreen({
   participantId,
-  onDownload,
+  saveStatus,
+  saveErrorMessage,
 }: ExperimentEndScreenProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
@@ -18,13 +23,12 @@ export function ExperimentEndScreen({
           Participant ID: {participantId}
         </p>
 
-        <button
-          type="button"
-          onClick={onDownload}
-          className="mt-8 w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-        >
-          결과 다운로드
-        </button>
+        <div className="mt-8">
+          <SaveStatusMessage
+            status={saveStatus}
+            errorMessage={saveErrorMessage}
+          />
+        </div>
       </main>
     </div>
   );

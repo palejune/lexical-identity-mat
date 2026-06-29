@@ -1,5 +1,5 @@
 interface CompleteButtonProps {
-  onComplete: () => void;
+  onComplete: () => void | Promise<void>;
   disabled?: boolean;
 }
 

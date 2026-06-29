@@ -5,12 +5,17 @@ import { ExperimentBoard } from "@/components/experiment/ExperimentBoard";
 import { ExperimentEndScreen } from "@/components/experiment/ExperimentEndScreen";
 import { ExperimentStartScreen } from "@/components/experiment/ExperimentStartScreen";
 import { DebugPanel } from "@/components/experiment/DebugPanel";
+import { SaveStatusMessage } from "@/components/experiment/SaveStatusMessage";
 import { buildParticipantResult } from "@/lib/experiment/buildParticipantResult";
-import { downloadParticipantResult } from "@/lib/experiment/downloadResult";
 import {
   loadFamilyCsvFromUrl,
   loadTrialsManifest,
 } from "@/lib/experiment/loadTrials";
+import {
+  saveFamilyResult,
+  saveParticipantSession,
+  type SaveStatus,
+} from "@/lib/experiment/saveResult";
 import type {
   ExperimentData,
   FamilyResult,
@@ -29,6 +34,8 @@ export default function Home() {
   const [familyResults, setFamilyResults] = useState<FamilyResult[]>([]);
   const [participantResult, setParticipantResult] =
     useState<ParticipantResult | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [saveErrorMessage, setSaveErrorMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -86,30 +93,48 @@ export default function Home() {
   const trimmedParticipantId = participantId.trim();
 
   const handleFamilyComplete = useCallback(
-    (result: FamilyResult) => {
+    async (result: FamilyResult) => {
       if (!manifest) {
         return;
       }
 
-      const updatedFamilyResults = [...familyResults, result];
-      setFamilyResults(updatedFamilyResults);
+      setSaveStatus("saving");
+      setSaveErrorMessage(null);
 
-      const isLastFamily =
-        currentFamilyIndex >= manifest.families.length - 1;
+      try {
+        await saveFamilyResult(result);
 
-      if (isLastFamily) {
-        setParticipantResult(
-          buildParticipantResult(
+        const updatedFamilyResults = [...familyResults, result];
+        setFamilyResults(updatedFamilyResults);
+
+        const isLastFamily =
+          currentFamilyIndex >= manifest.families.length - 1;
+
+        if (isLastFamily) {
+          const completedParticipantResult = buildParticipantResult(
             trimmedParticipantId,
             updatedFamilyResults,
             new Date().toISOString(),
-          ),
-        );
-        setIsFinished(true);
-        return;
-      }
+          );
 
-      setCurrentFamilyIndex((previous) => previous + 1);
+          setParticipantResult(completedParticipantResult);
+          setIsFinished(true);
+
+          await saveParticipantSession(completedParticipantResult);
+          setSaveStatus("success");
+          return;
+        }
+
+        setSaveStatus("idle");
+        setCurrentFamilyIndex((previous) => previous + 1);
+      } catch (saveError: unknown) {
+        const message =
+          saveError instanceof Error
+            ? saveError.message
+            : "결과 저장에 실패했습니다.";
+        setSaveErrorMessage(message);
+        setSaveStatus("error");
+      }
     },
     [
       currentFamilyIndex,
@@ -118,14 +143,6 @@ export default function Home() {
       trimmedParticipantId,
     ],
   );
-
-  const handleDownload = useCallback(() => {
-    if (!participantResult) {
-      return;
-    }
-
-    downloadParticipantResult(participantResult);
-  }, [participantResult]);
 
   if (error) {
     return (
@@ -160,7 +177,8 @@ export default function Home() {
       <div className="relative min-h-screen">
         <ExperimentEndScreen
           participantId={trimmedParticipantId}
-          onDownload={handleDownload}
+          saveStatus={saveStatus}
+          saveErrorMessage={saveErrorMessage}
         />
         <DebugPanel result={participantResult} />
       </div>
@@ -169,23 +187,42 @@ export default function Home() {
 
   if (isTrialLoading || !currentTrial) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100">
-        <p className="text-sm text-slate-600">
-          family CSV를 불러오는 중... ({currentFamilyIndex + 1} /{" "}
-          {manifest.families.length})
-        </p>
+      <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
+        <div className="w-full max-w-md space-y-4 text-center">
+          <p className="text-sm text-slate-600">
+            family CSV를 불러오는 중... ({currentFamilyIndex + 1} /{" "}
+            {manifest.families.length})
+          </p>
+          <SaveStatusMessage
+            status={saveStatus}
+            errorMessage={saveErrorMessage}
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <ExperimentBoard
-      key={currentTrial.trialId}
-      trial={currentTrial}
-      participantId={trimmedParticipantId}
-      familyIndex={currentFamilyIndex}
-      totalFamilies={manifest.families.length}
-      onFamilyComplete={handleFamilyComplete}
-    />
+    <div className="relative min-h-screen">
+      <ExperimentBoard
+        key={currentTrial.trialId}
+        trial={currentTrial}
+        participantId={trimmedParticipantId}
+        familyIndex={currentFamilyIndex}
+        totalFamilies={manifest.families.length}
+        onFamilyComplete={handleFamilyComplete}
+      />
+
+      {saveStatus !== "idle" && (
+        <div className="pointer-events-none absolute inset-0 z-[60] flex items-end justify-center bg-slate-900/10 p-4 sm:items-center">
+          <div className="pointer-events-auto w-full max-w-md">
+            <SaveStatusMessage
+              status={saveStatus}
+              errorMessage={saveErrorMessage}
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
