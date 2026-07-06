@@ -1,0 +1,14 @@
+family_id,role,id,text,family_code,anchor,variant,variant_IPA,diff_from_anchor,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f07,anchor,a1,클로에베르테,f07,클로에베르테,클로에베르테,kʰɯ.ɾo.e.be.ɾɯ.tʰe,(anchor),anchor,-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,"pseudo — 6음절 french feel, 로라메르시에 matched"
+f07,variant,v1,클로에베르트,f07,클로에베르테,클로에베르트,kʰɯ.ɾo.e.be.ɾɯ.tʰɯ,tʰe→tʰɯ,L1,안쪽,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,6음절 e→ɯ height+backness
+f07,variant,v2,클로에베테,f07,클로에베르테,클로에베테,kʰɯ.ɾo.e.be.tʰe,ɾɯ 탈락,L2,안쪽,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,,5음절 르 탈락 (음절감소)
+f07,variant,v3,끌로에베르테,f07,클로에베르테,끌로에베르테,k͈ɯ.ɾo.e.be.ɾɯ.tʰe,kʰɯ→k͈ɯ,L3,안쪽,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,어두 경음화 k→k͈
+f07,variant,v4,클로에베흐테,f07,클로에베르테,클로에베흐테,kʰɯ.ɾo.e.be.hɯ.tʰe,ɾɯ→hɯ,L3,안쪽,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,"5음절 ɾ→h, French r 재해석"
+f07,variant,v5,클로에베르떼,f07,클로에베르테,클로에베르떼,kʰɯ.ɾo.e.be.ɾɯ.t͈e,tʰe→t͈e,L3,안쪽,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,어말 경음화 tʰ→t͈
+f07,variant,v6,클로에베르테이,f07,클로에베르테,클로에베르테이,kʰɯ.ɾo.e.be.ɾɯ.tʰe.i,e→e.i,L2,안쪽,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,,어말 glide 삽입
+f07,variant,v7,클로에페르테,f07,클로에베르테,클로에페르테,kʰɯ.ɾo.e.pʰe.ɾɯ.tʰe,be→pʰe,L1,안쪽,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,,4음절 b→pʰ strength+voicing
+f07,variant,v8,클로이베르테,f07,클로에베르테,클로이베르테,kʰɯ.ɾo.i.be.ɾɯ.tʰe,e→i,L1,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,,3음절 e→i height
+f07,variant,v9,크로에베르테,f07,클로에베르테,크로에베르테,kʰɯ.ɾo.e.be.ɾɯ.tʰe,kʰɯl→kʰɯ 유형,L2,안쪽,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,,1음절 구조 단순화 (핫셀→하셀 유사)
+f07,variant,v10,클로에베르테르,f07,클로에베르테,클로에베르테르,kʰɯ.ɾo.e.be.ɾɯ.tʰe.ɾɯ,+ɾɯ,L3,경계근처,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,어말 음절 추가 — French 어미 과잉
+f07,variant,v11,끌로에뻬흐떼,f07,클로에베르테,끌로에뻬흐떼,다중,다중,L1+L3,바깥,1,1,1,0,0,0,0,0,0,0,0,1,0,1,1,0,변수 최대 누적 — 경계 바깥
+f07,variant,v12,클레오베르테,f07,클로에베르테,클레오베르테,kʰɯ.ɾe.o.be.ɾɯ.tʰe,ɾo.e→ɾe.o,L1 극단,바깥,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,2·3음절 모음 위치 교차 — 경계 바깥

@@ -1,12 +1,12 @@
-family_id,role,id,text,family_code,anchor,variant,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
-f01,anchor,a1,핫셀블라드,f01,핫셀블라드,핫셀블라드,anchor,안쪽,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,원형
-f01,variant,v1,핫셀블라트,f01,핫셀블라드,핫셀블라트,L1,안쪽,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,,5음절 d→t voicing_change
-f01,variant,v2,핫셀플라드,f01,핫셀블라드,핫셀플라드,L1,안쪽,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,,3음절 b→p strength_change
-f01,variant,v3,핫셀블러드,f01,핫셀블라드,핫셀블러드,L1,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,,4음절 a→ʌ height_change
-f01,variant,v4,하셀블라드,f01,핫셀블라드,하셀블라드,L2,안쪽,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,,1음절 coda t 탈락 — 관찰됨
-f01,variant,v5,하셀블래드,f01,핫셀블라드,하셀블래드,L2,안쪽,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,,coda탈락+4음절 a→ɛ
-f01,variant,v6,하쎌블라드,f01,핫셀블라드,하쎌블라드,L3,안쪽,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,1.0,tensification+coda탈락 — 관찰됨
-f01,variant,v7,핫셀블레이드,f01,핫셀블라드,핫셀블레이드,L3,안쪽,0,0,0,0,1,1,0,1,0,1,0,0,0,0,1,1.0,영어식 -blade 재해석 — 관찰됨
-f01,variant,v8,해쓸블라드,f01,핫셀블라드,해쓸블라드,L3,경계 근처/바깥,0,0,1,0,1,0,0,0,0,1,0,1,0,0,1,1.0,tensification+vowel_adaptation — 관찰됨
-f01,variant,v9,해쓸블레이드,f01,핫셀블라드,해쓸블레이드,L3 복합,바깥,0,0,1,0,1,1,0,1,0,1,0,1,0,0,1,0.0,tensification+vowel_adaptation+coda_change+영어식재해석 — 변수 최대 누적
-f01,variant,v10,하셀벨라드,f01,핫셀블라드,하셀벨라드,L1+L2,바깥,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0.0,coda_change+3음절 모음+자음 동시 변화
+family_id,role,id,text,family_code,anchor,variant,variant_IPA,diff_from_anchor,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f01,anchor,a1,핫셀블라드,f01,핫셀블라드,핫셀블라드,hat.sel.bɯl.la.dɯ,(anchor),anchor,-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,원형
+f01,variant,v1,핫셀블라트,f01,핫셀블라드,핫셀블라트,hat.sel.bɯl.la.tʰɯ,dɯ→tʰɯ,L1,안쪽,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,,5음절 d→tʰ strength+voicing
+f01,variant,v2,핫셀플라드,f01,핫셀블라드,핫셀플라드,hat.sel.pʰɯl.la.dɯ,bɯl→pʰɯl,L1,안쪽,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,,3음절 b→pʰ strength+voicing
+f01,variant,v3,핫셀블러드,f01,핫셀블라드,핫셀블러드,hat.sel.bɯl.lʌ.dɯ,la→lʌ,L1,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,,4음절 a→ʌ height
+f01,variant,v4,하셀블라드,f01,핫셀블라드,하셀블라드,ha.sel.bɯl.la.dɯ,hat→ha,L2,안쪽,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,,1음절 coda t 탈락 — 관찰됨
+f01,variant,v5,하셀블래드,f01,핫셀블라드,하셀블래드,ha.sel.bɯl.lɛ.dɯ,"hat→ha, la→lɛ",L2,안쪽,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,,coda 탈락 + 4음절 a→ɛ height
+f01,variant,v6,하쎌블라드,f01,핫셀블라드,하쎌블라드,ha.s͈el.bɯl.la.dɯ,hat.sel→ha.s͈el,L3,안쪽,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,1,coda 탈락 + 경음화 s→s͈ — 관찰됨
+f01,variant,v7,핫셀블레이드,f01,핫셀블라드,핫셀블레이드,hat.sel.bɯl.le.i.dɯ,la.dɯ→le.i.dɯ,L3,안쪽,0,0,0,0,1,1,0,1,0,0,1,0,0,0,1,1,영어식 '-blade' 재해석 (음절추가) — 관찰됨
+f01,variant,v8,해쓸블라드,f01,핫셀블라드,해쓸블라드,hɛ.s͈ɯl.bɯl.la.dɯ,hat.sel→hɛ.s͈ɯl,L3,경계근처,0,0,1,0,1,0,0,0,0,1,0,1,0,0,1,0,"1음절 a→ɛ+coda탈락, 2음절 경음+e→ɯ"
+f01,variant,v9,해쓸블레이드,f01,핫셀블라드,해쓸블레이드,hɛ.s͈ɯl.bɯl.le.i.dɯ,다중,L1+L3,바깥,0,0,1,0,1,1,0,1,0,1,1,1,0,0,1,0,변수 최대 누적 — 경계 바깥
+f01,variant,v10,하셀벨라드,f01,핫셀블라드,하셀벨라드,ha.sel.bel.la.dɯ,"hat→ha, bɯl→bel",L1+L2,바깥,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,,coda탈락 + 3음절 ɯ→e — 경계 바깥

@@ -1,0 +1,11 @@
+family_id,role,id,text,family_code,anchor,variant,variant_IPA,diff_from_anchor,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f06,anchor,a1,퓨어노바,f06,퓨어노바,퓨어노바,pʰju.ʌ.no.ba,(anchor),anchor,-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,"pseudo — 4음절 english feel, 더마토리 matched"
+f06,variant,v1,퓨어노파,f06,퓨어노바,퓨어노파,pʰju.ʌ.no.pʰa,ba→pʰa,L1,안쪽,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,,4음절 b→pʰ strength+voicing
+f06,variant,v2,퓨어로바,f06,퓨어노바,퓨어로바,pʰju.ʌ.ɾo.ba,no→ɾo,L1,안쪽,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,,3음절 n→ɾ manner (nasal→liquid)
+f06,variant,v3,퓨에노바,f06,퓨어노바,퓨에노바,pʰju.e.no.ba,ʌ→e,L1,안쪽,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,2음절 ʌ→e height+backness
+f06,variant,v4,퓨어노버,f06,퓨어노바,퓨어노버,pʰju.ʌ.no.bʌ,ba→bʌ,L1,안쪽,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,4음절 a→ʌ height+backness
+f06,variant,v5,퓨어놔바,f06,퓨어노바,퓨어놔바,pʰju.ʌ.nwa.ba,no→nwa,L2,안쪽,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,3음절 glide 삽입 (o→wa)
+f06,variant,v6,퓨어노빠,f06,퓨어노바,퓨어노빠,pʰju.ʌ.no.p͈a,ba→p͈a,L3,안쪽,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,1,4음절 경음화 b→p͈
+f06,variant,v7,퓨어놔빠,f06,퓨어노바,퓨어놔빠,pʰju.ʌ.nwa.p͈a,다중,L3,경계근처,0,0,1,1,0,0,1,1,0,0,0,1,0,0,1,0,glide+경음화 복합
+f06,variant,v8,퓨뤄노바,f06,퓨어노바,퓨뤄노바,pʰjwʌ.ʌ.no.ba,pʰju→pʰjwʌ,L1+L3,바깥,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1음절 glide+rounding 변형 — 경계 바깥
+f06,variant,v9,퓨어도나,f06,퓨어노바,퓨어도나,pʰju.ʌ.do.na,no.ba→do.na,L1 극단,바깥,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,,3·4음절 다중 자음 변화 — 경계 바깥

@@ -1,0 +1,11 @@
+family_id,role,id,text,family_code,anchor,variant,variant_IPA,diff_from_anchor,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f03,anchor,a1,멘델브라트,f03,멘델브라트,멘델브라트,men.del.bɯ.ɾa.tʰɯ,(anchor),anchor,-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,pseudo — 5음절 받침+자음군 high constraint
+f03,variant,v1,멘델브라드,f03,멘델브라트,멘델브라드,men.del.bɯ.ɾa.dɯ,tʰɯ→dɯ,L1,안쪽,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,,5음절 tʰ→d strength+voicing
+f03,variant,v2,멘딜브라트,f03,멘델브라트,멘딜브라트,men.dil.bɯ.ɾa.tʰɯ,del→dil,L1,안쪽,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,2음절 e→i height+backness
+f03,variant,v3,멘델플라트,f03,멘델브라트,멘델플라트,men.del.pʰɯ.ɾa.tʰɯ,bɯ→pʰɯ,L1,안쪽,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,,3음절 b→pʰ strength+voicing
+f03,variant,v4,멘덜브라트,f03,멘델브라트,멘덜브라트,men.dʌl.bɯ.ɾa.tʰɯ,del→dʌl,L1,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,,2음절 e→ʌ height (coda 유지)
+f03,variant,v5,메델브라트,f03,멘델브라트,메델브라트,me.del.bɯ.ɾa.tʰɯ,men→me,L2,안쪽,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,,1음절 coda n 탈락
+f03,variant,v6,멘델쁘라트,f03,멘델브라트,멘델쁘라트,men.del.p͈ɯ.ɾa.tʰɯ,bɯ→p͈ɯ,L3,바깥,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,3음절 경음화 — 참가자 판단: 바깥 (르꾸루제와 대조)
+f03,variant,v7,멘델블레이트,f03,멘델브라트,멘델블레이트,men.del.bɯl.le.i.tʰɯ,bɯ.ɾa→bɯl.le.i,L3,경계근처,0,0,0,0,1,1,0,1,0,0,1,0,0,1,1,1,영어식 '-brate' 재해석 (음절추가)
+f03,variant,v8,멘델쁠레이트,f03,멘델브라트,멘델쁠레이트,men.del.p͈ɯl.le.i.tʰɯ,다중,L1+L3,바깥,0,0,1,1,1,1,0,1,0,0,1,1,0,1,1,0,경음+영어식 재해석 누적 — 경계 바깥
+f03,variant,v9,멘도브가트,f03,멘델브라트,멘도브가트,men.do.bɯ.ga.tʰɯ,del.ɾa→do.ga,L1+L2,바깥,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,,"2음절 coda탈락+e→o, 4음절 ɾ→g — 경계 바깥"

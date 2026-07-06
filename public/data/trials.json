@@ -7,6 +7,30 @@
     {
       "familyId": "f01",
       "file": "families/f01.csv"
+    },
+    {
+      "familyId": "f02",
+      "file": "families/f02.csv"
+    },
+    {
+      "familyId": "f03",
+      "file": "families/f03.csv"
+    },
+    {
+      "familyId": "f04",
+      "file": "families/f04.csv"
+    },
+    {
+      "familyId": "f05",
+      "file": "families/f05.csv"
+    },
+    {
+      "familyId": "f06",
+      "file": "families/f06.csv"
+    },
+    {
+      "familyId": "f07",
+      "file": "families/f07.csv"
     }
   ]
 }

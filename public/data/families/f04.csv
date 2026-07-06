@@ -1,0 +1,11 @@
+family_id,role,id,text,family_code,anchor,variant,variant_IPA,diff_from_anchor,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f04,anchor,a1,더마토리,f04,더마토리,더마토리,dʌ.ma.tʰo.ɾi,(anchor),anchor,-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,real — 4음절 english_based low variability
+f04,variant,v1,더마도리,f04,더마토리,더마도리,dʌ.ma.to.ɾi,tʰo→to,L1,안쪽,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,,3음절 tʰ→t strength
+f04,variant,v2,다마토리,f04,더마토리,다마토리,da.ma.tʰo.ɾi,dʌ→da,L1,안쪽,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,1음절 ʌ→a height+backness
+f04,variant,v3,더마토르,f04,더마토리,더마토르,dʌ.ma.tʰo.ɾɯ,ɾi→ɾɯ,L1,안쪽,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,,4음절 i→ɯ height+backness
+f04,variant,v4,더머토리,f04,더마토리,더머토리,dʌ.mʌ.tʰo.ɾi,ma→mʌ,L1,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,,2음절 a→ʌ height
+f04,variant,v5,더마트리,f04,더마토리,더마트리,dʌ.ma.tʰɯ.ɾi,tʰo→tʰɯ,L2,안쪽,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,,3음절 o→ɯ 모음 축약
+f04,variant,v6,더마또리,f04,더마토리,더마또리,dʌ.ma.t͈o.ɾi,tʰo→t͈o,L3,안쪽,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,3음절 경음화 tʰ→t͈
+f04,variant,v7,더머또리,f04,더마토리,더머또리,dʌ.mʌ.t͈o.ɾi,ma.tʰo→mʌ.t͈o,L3,경계근처,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,경음화+2음절 height 복합
+f04,variant,v8,다머또리,f04,더마토리,다머또리,da.mʌ.t͈o.ɾi,다중,L1+L3,바깥,0,0,1,0,1,1,0,0,0,0,0,1,0,0,0,0,변수 누적 — 경계 바깥
+f04,variant,v9,더마토니,f04,더마토리,더마토니,dʌ.ma.tʰo.ni,ɾi→ni,L1 극단,바깥,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,,4음절 ɾ→n manner (liquid→nasal) — 경계 바깥

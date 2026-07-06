@@ -1,0 +1,12 @@
+family_id,role,id,text,family_code,anchor,variant,variant_IPA,diff_from_anchor,layer,boundary_expected,place_change,manner_change,strength_change,voicing_change,height_change,backness_change,rounding_change,glide_change,onset,coda,syllable_change,tensification,liquidization,cluster_restructuring,vowel_adaptation,rule_licensed,notes
+f05,anchor,a1,로라메르시에,f05,로라메르시에,로라메르시에,ɾo.ɾa.me.ɾɯ.si.e,(anchor),anchor,-,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,real — 6음절 french_based high variability
+f05,variant,v1,로라메르세,f05,로라메르시에,로라메르세,ɾo.ɾa.me.ɾɯ.se,si.e→se,L2,안쪽,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,,5·6음절 축약 (음절 감소)
+f05,variant,v2,로라메르시,f05,로라메르시에,로라메르시,ɾo.ɾa.me.ɾɯ.si,si.e→si,L2,안쪽,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,,6음절 e 탈락
+f05,variant,v3,로라메르쉬에,f05,로라메르시에,로라메르쉬에,ɾo.ɾa.me.ɾɯ.ɕɥi.e,si→ɕɥi,L1,안쪽,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,"5음절 s→ɕ+glide, French 재해석"
+f05,variant,v4,로라머르시에,f05,로라메르시에,로라머르시에,ɾo.ɾa.mʌ.ɾɯ.si.e,me→mʌ,L1,안쪽,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,3음절 e→ʌ height,
+f05,variant,v5,로라메흐시에,f05,로라메르시에,로라메흐시에,ɾo.ɾa.me.hɯ.si.e,ɾɯ→hɯ,L3,안쪽,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,"4음절 ɾ→h, French r 재해석"
+f05,variant,v6,로라메르씨에,f05,로라메르시에,로라메르씨에,ɾo.ɾa.me.ɾɯ.s͈i.e,si→s͈i,L3,안쪽,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1,5음절 경음화 s→s͈
+f05,variant,v7,로라메르시에이,f05,로라메르시에,로라메르시에이,ɾo.ɾa.me.ɾɯ.si.e.i,e→e.i,L2,안쪽,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,,어말 glide/모음 삽입
+f05,variant,v8,로라메르시에르,f05,로라메르시에,로라메르시에르,ɾo.ɾa.me.ɾɯ.si.e.ɾɯ,+ɾɯ,L3,경계근처,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,어말 음절 추가 — French 어미 과잉
+f05,variant,v9,로라메르씨에이르,f05,로라메르시에,로라메르씨에이르,다중,다중,L1+L3,바깥,0,0,1,0,0,0,0,1,0,0,1,0,0,0,1,0,변수 최대 누적 — 경계 바깥
+f05,variant,v10,로마메르시에,f05,로라메르시에,로마메르시에,ɾo.ma.me.ɾɯ.si.e,ɾa→ma,L1 극단,바깥,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,,2음절 ɾ→m place+manner — 경계 바깥
