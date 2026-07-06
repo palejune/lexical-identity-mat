@@ -1,8 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { calculateDistanceToAnchor } from "@/lib/experiment/distance";
-import { generateCircularPositions } from "@/lib/experiment/circularLayout";
+import {
+  ESTIMATED_TOKEN_SIZE,
+  generateCircularOutsidePositions,
+  getPlacementCircleRadius,
+  isTokenFullyInsideCircle,
+  type Size,
+} from "@/lib/experiment/placementCircle";
 import {
   normalizeDistance,
   normalizeX,
@@ -16,6 +22,10 @@ import type {
 import { AnchorToken } from "./AnchorToken";
 import { CompleteButton } from "./CompleteButton";
 import { DebugPanel } from "./DebugPanel";
+import { ExperimentBoardHeader } from "./ExperimentBoardHeader";
+import { PlacementCircle } from "./PlacementCircle";
+import { PlacementWarningModal } from "./PlacementWarningModal";
+import { ResizeRestartModal } from "./ResizeRestartModal";
 import { VariantToken } from "./VariantToken";
 
 interface ExperimentBoardProps {
@@ -38,53 +48,89 @@ export function ExperimentBoard({
   onFamilyComplete,
 }: ExperimentBoardProps) {
   const boardRef = useRef<HTMLDivElement>(null);
-  const initialBoardSizeRef = useRef<{ width: number; height: number } | null>(
+  const stableBoardSizeRef = useRef<{ width: number; height: number } | null>(
     null,
   );
   const [positions, setPositions] = useState<Record<string, Position>>({});
+  const [tokenSizes, setTokenSizes] = useState<Record<string, Size>>({});
   const [anchorPosition, setAnchorPosition] = useState<Position | null>(null);
+  const [placementRadius, setPlacementRadius] = useState(0);
   const [boardSize, setBoardSize] = useState<{
     width: number;
     height: number;
   } | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [hasResized, setHasResized] = useState(false);
+  const [showPlacementWarning, setShowPlacementWarning] = useState(false);
+  const [layoutKey, setLayoutKey] = useState(0);
+  const [activeTokenId, setActiveTokenId] = useState<string | null>(null);
 
-  const initializePositions = useCallback(() => {
-    const board = boardRef.current;
-    if (!board) {
-      return;
+  const applyTrialLayout = useCallback(
+    (options?: { clearTokenSizes?: boolean }) => {
+      const board = boardRef.current;
+      if (!board) {
+        return null;
+      }
+
+      const { width, height } = board.getBoundingClientRect();
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = getPlacementCircleRadius(width, height);
+      const outsidePositions = generateCircularOutsidePositions(
+        trial.variants.length,
+        { x: centerX, y: centerY },
+        radius,
+        ESTIMATED_TOKEN_SIZE,
+        width,
+        height,
+      );
+
+      const nextPositions: Record<string, Position> = {};
+      trial.variants.forEach((variant, index) => {
+        nextPositions[variant.id] = outsidePositions[index] ?? {
+          x: centerX,
+          y: centerY,
+        };
+      });
+
+      setPositions(nextPositions);
+      if (options?.clearTokenSizes) {
+        setTokenSizes({});
+        setLayoutKey((previous) => previous + 1);
+      }
+      setActiveTokenId(null);
+      setAnchorPosition({ x: centerX, y: centerY });
+      setPlacementRadius(radius);
+      setBoardSize({ width, height });
+
+      return { width, height };
+    },
+    [trial.variants],
+  );
+
+  const initializeTrial = useCallback(() => {
+    const size = applyTrialLayout({ clearTokenSizes: true });
+    if (size) {
+      stableBoardSizeRef.current = size;
     }
-
-    const { width, height } = board.getBoundingClientRect();
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const radius = Math.min(width, height) * 0.32;
-
-    const circularPositions = generateCircularPositions(
-      trial.variants.length,
-      centerX,
-      centerY,
-      radius,
-    );
-
-    const initialPositions: Record<string, Position> = {};
-    trial.variants.forEach((variant, index) => {
-      initialPositions[variant.id] = circularPositions[index];
-    });
-
-    setPositions(initialPositions);
-    setAnchorPosition({ x: centerX, y: centerY });
-    setBoardSize({ width, height });
-    initialBoardSizeRef.current = { width, height };
     setHasResized(false);
+    setShowPlacementWarning(false);
     setIsReady(true);
-  }, [trial.variants]);
+  }, [applyTrialLayout]);
+
+  const handleRestartSession = useCallback(() => {
+    const size = applyTrialLayout({ clearTokenSizes: false });
+    if (size) {
+      stableBoardSizeRef.current = size;
+    }
+    setHasResized(false);
+    setShowPlacementWarning(false);
+  }, [applyTrialLayout]);
 
   useEffect(() => {
     setIsReady(false);
-    initializePositions();
-  }, [initializePositions, trial.trialId]);
+    initializeTrial();
+  }, [initializeTrial, trial.trialId]);
 
   useEffect(() => {
     if (!isReady) {
@@ -97,15 +143,18 @@ export function ExperimentBoard({
     }
 
     const handleResize = () => {
-      const initialSize = initialBoardSizeRef.current;
-      if (!initialSize) {
+      const stableSize = stableBoardSizeRef.current;
+      if (!stableSize) {
         return;
       }
 
       const { width, height } = board.getBoundingClientRect();
-      if (width !== initialSize.width || height !== initialSize.height) {
-        setHasResized(true);
+      if (stableSize.width === width && stableSize.height === height) {
+        return;
       }
+
+      applyTrialLayout({ clearTokenSizes: true });
+      setHasResized(true);
     };
 
     const resizeObserver = new ResizeObserver(handleResize);
@@ -116,7 +165,7 @@ export function ExperimentBoard({
       resizeObserver.disconnect();
       window.removeEventListener("resize", handleResize);
     };
-  }, [isReady, trial.trialId]);
+  }, [applyTrialLayout, isReady, trial.trialId]);
 
   const handlePositionChange = useCallback((id: string, position: Position) => {
     setPositions((previous) => ({
@@ -124,6 +173,61 @@ export function ExperimentBoard({
       [id]: position,
     }));
   }, []);
+
+  const handleTokenSizeChange = useCallback((id: string, size: Size) => {
+    setTokenSizes((previous) => {
+      const current = previous[id];
+      if (
+        current?.width === size.width &&
+        current?.height === size.height
+      ) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+        [id]: size,
+      };
+    });
+  }, []);
+
+  const allTokenSizesMeasured = useMemo(
+    () =>
+      trial.variants.every((variant) => {
+        const size = tokenSizes[variant.id];
+        return size !== undefined && size.width > 0 && size.height > 0;
+      }),
+    [trial.variants, tokenSizes],
+  );
+
+  const allTokensInside = useMemo(() => {
+    if (!anchorPosition || !allTokenSizesMeasured || placementRadius <= 0) {
+      return false;
+    }
+
+    return trial.variants.every((variant) => {
+      const position = positions[variant.id];
+      const size = tokenSizes[variant.id];
+
+      if (!position || !size) {
+        return false;
+      }
+
+      return isTokenFullyInsideCircle(
+        position,
+        size,
+        anchorPosition,
+        placementRadius,
+      );
+    });
+  }, [
+    allTokenSizesMeasured,
+    anchorPosition,
+    placementRadius,
+    positions,
+    tokenSizes,
+    trial.variants,
+  ]);
 
   const buildResult = useCallback((): FamilyResult => {
     const anchor = anchorPosition ?? { x: 0, y: 0 };
@@ -167,8 +271,13 @@ export function ExperimentBoard({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleComplete = useCallback(async () => {
-    if (isSubmitting) {
+  const handleCompleteClick = useCallback(async () => {
+    if (isSubmitting || hasResized) {
+      return;
+    }
+
+    if (!allTokensInside) {
+      setShowPlacementWarning(true);
       return;
     }
 
@@ -178,56 +287,74 @@ export function ExperimentBoard({
     } finally {
       setIsSubmitting(false);
     }
-  }, [buildResult, isSubmitting, onFamilyComplete]);
+  }, [
+    allTokensInside,
+    buildResult,
+    hasResized,
+    isSubmitting,
+    onFamilyComplete,
+  ]);
 
   return (
-    <div
-      ref={boardRef}
-      className="relative h-screen w-full overflow-hidden bg-slate-100"
-    >
-      <div className="absolute left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white/95 px-3 py-2 text-sm text-slate-700 shadow-sm">
-        Family {familyIndex + 1} / {totalFamilies}
-        <span className="ml-2 font-medium text-slate-900">{trial.trialId}</span>
+    <div className="flex h-screen flex-col bg-slate-100">
+      <ExperimentBoardHeader
+        familyIndex={familyIndex}
+        totalFamilies={totalFamilies}
+      />
+
+      <div ref={boardRef} className="relative min-h-0 flex-1 overflow-hidden">
+        {isReady && anchorPosition && placementRadius > 0 && (
+          <PlacementCircle
+            center={anchorPosition}
+            radius={placementRadius}
+          />
+        )}
+
+        <AnchorToken text={trial.anchor} />
+
+        {isReady &&
+          trial.variants.map((variant) => {
+            const position = positions[variant.id];
+            if (!position) {
+              return null;
+            }
+
+            return (
+              <VariantToken
+                key={`${variant.id}-${layoutKey}`}
+                id={variant.id}
+                text={variant.text}
+                position={position}
+                boardRef={boardRef}
+                onPositionChange={handlePositionChange}
+                onSizeChange={handleTokenSizeChange}
+                onActivate={setActiveTokenId}
+                isActive={activeTokenId === variant.id}
+                interactive={!hasResized}
+              />
+            );
+          })}
+
+        {isReady && !hasResized && <DebugPanel result={buildResult()} />}
+
+        {isReady && !hasResized && (
+          <CompleteButton
+            onComplete={handleCompleteClick}
+            disabled={isSubmitting}
+            inactive={!allTokensInside}
+          />
+        )}
+
+        {showPlacementWarning && (
+          <PlacementWarningModal
+            onClose={() => setShowPlacementWarning(false)}
+          />
+        )}
+
+        {hasResized && (
+          <ResizeRestartModal onRestart={handleRestartSession} />
+        )}
       </div>
-
-      <AnchorToken text={trial.anchor} />
-
-      {isReady &&
-        trial.variants.map((variant) => {
-          const position = positions[variant.id];
-          if (!position) {
-            return null;
-          }
-
-          return (
-            <VariantToken
-              key={variant.id}
-              id={variant.id}
-              text={variant.text}
-              position={position}
-              boardRef={boardRef}
-              onPositionChange={handlePositionChange}
-            />
-          );
-        })}
-
-      {hasResized && (
-        <div
-          role="alert"
-          className="absolute left-1/2 top-4 z-50 -translate-x-1/2 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900 shadow-md"
-        >
-          실험 도중 창 크기를 변경하지 마십시오
-        </div>
-      )}
-
-      {isReady && <DebugPanel result={buildResult()} />}
-
-      {isReady && (
-        <CompleteButton
-          onComplete={handleComplete}
-          disabled={hasResized || isSubmitting}
-        />
-      )}
     </div>
   );
 }
