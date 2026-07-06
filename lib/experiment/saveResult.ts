@@ -3,15 +3,15 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getFirestoreDb } from "@/lib/firebase";
 import type {
-  FamilyResult,
   ParticipantInfo,
   ParticipantResult,
+  TrialResult,
 } from "./types";
 
 export type SaveStatus = "idle" | "saving" | "success" | "error";
 
 export async function saveFamilyResult(
-  result: FamilyResult,
+  result: TrialResult,
   participant: ParticipantInfo,
 ): Promise<string> {
   const docRef = await addDoc(collection(getFirestoreDb(), "responses"), {

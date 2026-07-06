@@ -48,7 +48,7 @@ export interface ExperimentWorkspace {
   };
 }
 
-export interface FamilyResult {
+export interface TrialResult {
   trialId: string;
   workspace: ExperimentWorkspace;
   anchor: ExperimentResultAnchor;
@@ -64,5 +64,5 @@ export interface ParticipantInfo {
 
 export interface ParticipantResult extends ParticipantInfo {
   completedAt: string;
-  families: FamilyResult[];
+  families: TrialResult[];
 }

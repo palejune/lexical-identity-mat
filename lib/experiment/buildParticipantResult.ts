@@ -1,10 +1,10 @@
-import type { FamilyResult, ParticipantResult } from "./types";
+import type { ParticipantResult, TrialResult } from "./types";
 
 export function buildParticipantResult(
   participantId: string,
   name: string,
   age: number,
-  families: FamilyResult[],
+  families: TrialResult[],
   completedAt: string,
 ): ParticipantResult {
   return {

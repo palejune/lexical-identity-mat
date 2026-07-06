@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { calculateDistanceToAnchor } from "@/lib/experiment/distance";
+import { buildTrialResult } from "@/lib/experiment/buildTrialResult";
 import {
   ESTIMATED_TOKEN_SIZE,
   generateCircularOutsidePositions,
@@ -9,15 +9,10 @@ import {
   isTokenFullyInsideCircle,
   type Size,
 } from "@/lib/experiment/placementCircle";
-import {
-  normalizeDistance,
-  normalizeX,
-  normalizeY,
-} from "@/lib/experiment/normalize";
 import type {
   ExperimentData,
-  FamilyResult,
   Position,
+  TrialResult,
 } from "@/lib/experiment/types";
 import { AnchorToken } from "./AnchorToken";
 import { CompleteButton } from "./CompleteButton";
@@ -32,7 +27,7 @@ interface ExperimentBoardProps {
   trial: ExperimentData;
   familyIndex: number;
   totalFamilies: number;
-  onFamilyComplete: (result: FamilyResult) => void | Promise<void>;
+  onFamilyComplete: (result: TrialResult) => void | Promise<void>;
 }
 
 export function ExperimentBoard({
@@ -223,49 +218,17 @@ export function ExperimentBoard({
     trial.variants,
   ]);
 
-  const buildResult = useCallback((): FamilyResult => {
-    const anchorCenter = anchorPosition ?? { x: 0, y: 0 };
-    const boardWidth = boardSize?.width ?? 0;
-    const boardHeight = boardSize?.height ?? 0;
-
-    return {
+  const buildTrialResultForBoard = useCallback((): TrialResult => {
+    return buildTrialResult({
       trialId: trial.trialId,
-      workspace: {
-        boardWidth,
-        boardHeight,
-        circleRadius: placementRadius,
-        circleCenter: {
-          x: anchorCenter.x,
-          y: anchorCenter.y,
-        },
-      },
-      anchor: {
-        text: trial.anchor,
-      },
-      completedAt: new Date().toISOString(),
-      items: trial.variants.map((variant) => {
-        const position = positions[variant.id] ?? { x: 0, y: 0 };
-        const distanceToAnchor = calculateDistanceToAnchor(
-          position,
-          anchorCenter,
-        );
-
-        return {
-          id: variant.id,
-          text: variant.text,
-          x: position.x,
-          y: position.y,
-          distanceToAnchor,
-          normalizedX: normalizeX(position.x, boardWidth),
-          normalizedY: normalizeY(position.y, boardHeight),
-          normalizedDistance: normalizeDistance(
-            distanceToAnchor,
-            boardWidth,
-            boardHeight,
-          ),
-        };
-      }),
-    };
+      anchorText: trial.anchor,
+      variants: trial.variants,
+      positions,
+      anchorCenter: anchorPosition ?? { x: 0, y: 0 },
+      boardWidth: boardSize?.width ?? 0,
+      boardHeight: boardSize?.height ?? 0,
+      circleRadius: placementRadius,
+    });
   }, [trial, positions, anchorPosition, boardSize, placementRadius]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -282,13 +245,13 @@ export function ExperimentBoard({
 
     setIsSubmitting(true);
     try {
-      await onFamilyComplete(buildResult());
+      await onFamilyComplete(buildTrialResultForBoard());
     } finally {
       setIsSubmitting(false);
     }
   }, [
     allTokensInside,
-    buildResult,
+    buildTrialResultForBoard,
     hasResized,
     isSubmitting,
     onFamilyComplete,
@@ -334,7 +297,9 @@ export function ExperimentBoard({
             );
           })}
 
-        {isReady && !hasResized && <DebugPanel result={buildResult()} />}
+        {isReady && !hasResized && (
+          <DebugPanel result={buildTrialResultForBoard()} />
+        )}
 
         {isReady && !hasResized && (
           <CompleteButton

@@ -20,7 +20,7 @@ import {
 } from "@/lib/experiment/saveResult";
 import type {
   ExperimentData,
-  FamilyResult,
+  TrialResult,
   ParticipantResult,
   TrialsManifest,
 } from "@/lib/experiment/types";
@@ -39,7 +39,7 @@ export default function Home() {
   const [currentFamilyIndex, setCurrentFamilyIndex] = useState(0);
   const [currentTrial, setCurrentTrial] = useState<ExperimentData | null>(null);
   const [isTrialLoading, setIsTrialLoading] = useState(false);
-  const [familyResults, setFamilyResults] = useState<FamilyResult[]>([]);
+  const [trialResults, setTrialResults] = useState<TrialResult[]>([]);
   const [participantResult, setParticipantResult] =
     useState<ParticipantResult | null>(null);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
@@ -107,7 +107,7 @@ export default function Home() {
   }, []);
 
   const handleFamilyComplete = useCallback(
-    async (result: FamilyResult) => {
+    async (result: TrialResult) => {
       if (!manifest) {
         return;
       }
@@ -122,8 +122,8 @@ export default function Home() {
           age: participantAge,
         });
 
-        const updatedFamilyResults = [...familyResults, result];
-        setFamilyResults(updatedFamilyResults);
+        const updatedTrialResults = [...trialResults, result];
+        setTrialResults(updatedTrialResults);
 
         const isLastFamily =
           currentFamilyIndex >= manifest.families.length - 1;
@@ -133,7 +133,7 @@ export default function Home() {
             participantId,
             trimmedName,
             participantAge,
-            updatedFamilyResults,
+            updatedTrialResults,
             new Date().toISOString(),
           );
 
@@ -159,7 +159,7 @@ export default function Home() {
     [
       currentFamilyIndex,
       manifest,
-      familyResults,
+      trialResults,
       participantId,
       trimmedName,
       participantAge,

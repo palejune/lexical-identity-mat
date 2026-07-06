@@ -1,13 +1,13 @@
-import type { FamilyResult, ParticipantResult } from "@/lib/experiment/types";
+import type { ParticipantResult, TrialResult } from "@/lib/experiment/types";
 import { downloadParticipantResult } from "@/lib/experiment/downloadResult";
 import { showDebugPanel } from "@/lib/showDebugPanel";
 
 interface DebugPanelProps {
-  result: FamilyResult | ParticipantResult;
+  result: TrialResult | ParticipantResult;
 }
 
 function isParticipantResult(
-  result: FamilyResult | ParticipantResult,
+  result: TrialResult | ParticipantResult,
 ): result is ParticipantResult {
   return "families" in result;
 }
