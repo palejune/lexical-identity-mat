@@ -116,7 +116,11 @@ export default function Home() {
       setSaveErrorMessage(null);
 
       try {
-        await saveFamilyResult(result);
+        await saveFamilyResult(result, {
+          participantId,
+          name: trimmedName,
+          age: participantAge,
+        });
 
         const updatedFamilyResults = [...familyResults, result];
         setFamilyResults(updatedFamilyResults);
@@ -232,9 +236,6 @@ export default function Home() {
       <ExperimentBoard
         key={currentTrial.trialId}
         trial={currentTrial}
-        participantId={participantId}
-        name={trimmedName}
-        age={participantAge}
         familyIndex={currentFamilyIndex}
         totalFamilies={manifest.families.length}
         onFamilyComplete={handleFamilyComplete}

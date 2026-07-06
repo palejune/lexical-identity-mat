@@ -30,9 +30,6 @@ import { VariantToken } from "./VariantToken";
 
 interface ExperimentBoardProps {
   trial: ExperimentData;
-  participantId: string;
-  name: string;
-  age: number;
   familyIndex: number;
   totalFamilies: number;
   onFamilyComplete: (result: FamilyResult) => void | Promise<void>;
@@ -40,9 +37,6 @@ interface ExperimentBoardProps {
 
 export function ExperimentBoard({
   trial,
-  participantId,
-  name,
-  age,
   familyIndex,
   totalFamilies,
   onFamilyComplete,
@@ -230,35 +224,31 @@ export function ExperimentBoard({
   ]);
 
   const buildResult = useCallback((): FamilyResult => {
-    const anchor = anchorPosition ?? { x: 0, y: 0 };
+    const anchorCenter = anchorPosition ?? { x: 0, y: 0 };
     const boardWidth = boardSize?.width ?? 0;
     const boardHeight = boardSize?.height ?? 0;
 
     return {
       trialId: trial.trialId,
-      participantId,
-      name,
-      age,
-      boardWidth,
-      boardHeight,
       workspace: {
         boardWidth,
         boardHeight,
         circleRadius: placementRadius,
         circleCenter: {
-          x: anchor.x,
-          y: anchor.y,
+          x: anchorCenter.x,
+          y: anchorCenter.y,
         },
       },
       anchor: {
         text: trial.anchor,
-        x: anchor.x,
-        y: anchor.y,
       },
       completedAt: new Date().toISOString(),
       items: trial.variants.map((variant) => {
         const position = positions[variant.id] ?? { x: 0, y: 0 };
-        const distanceToAnchor = calculateDistanceToAnchor(position, anchor);
+        const distanceToAnchor = calculateDistanceToAnchor(
+          position,
+          anchorCenter,
+        );
 
         return {
           id: variant.id,
@@ -276,16 +266,7 @@ export function ExperimentBoard({
         };
       }),
     };
-  }, [
-    participantId,
-    name,
-    age,
-    trial,
-    positions,
-    anchorPosition,
-    boardSize,
-    placementRadius,
-  ]);
+  }, [trial, positions, anchorPosition, boardSize, placementRadius]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

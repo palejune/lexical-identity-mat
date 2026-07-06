@@ -36,8 +36,6 @@ export interface ExperimentResultItem {
 
 export interface ExperimentResultAnchor {
   text: string;
-  x: number;
-  y: number;
 }
 
 export interface ExperimentWorkspace {
@@ -52,21 +50,19 @@ export interface ExperimentWorkspace {
 
 export interface FamilyResult {
   trialId: string;
-  participantId: string;
-  name: string;
-  age: number;
-  boardWidth: number;
-  boardHeight: number;
   workspace: ExperimentWorkspace;
   anchor: ExperimentResultAnchor;
   completedAt: string;
   items: ExperimentResultItem[];
 }
 
-export interface ParticipantResult {
+export interface ParticipantInfo {
   participantId: string;
   name: string;
   age: number;
+}
+
+export interface ParticipantResult extends ParticipantInfo {
   completedAt: string;
   families: FamilyResult[];
 }
