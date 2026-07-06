@@ -241,6 +241,15 @@ export function ExperimentBoard({
       age,
       boardWidth,
       boardHeight,
+      workspace: {
+        boardWidth,
+        boardHeight,
+        circleRadius: placementRadius,
+        circleCenter: {
+          x: anchor.x,
+          y: anchor.y,
+        },
+      },
       anchor: {
         text: trial.anchor,
         x: anchor.x,
@@ -267,7 +276,16 @@ export function ExperimentBoard({
         };
       }),
     };
-  }, [participantId, name, age, trial, positions, anchorPosition, boardSize]);
+  }, [
+    participantId,
+    name,
+    age,
+    trial,
+    positions,
+    anchorPosition,
+    boardSize,
+    placementRadius,
+  ]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

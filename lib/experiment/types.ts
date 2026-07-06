@@ -40,6 +40,16 @@ export interface ExperimentResultAnchor {
   y: number;
 }
 
+export interface ExperimentWorkspace {
+  boardWidth: number;
+  boardHeight: number;
+  circleRadius: number;
+  circleCenter: {
+    x: number;
+    y: number;
+  };
+}
+
 export interface FamilyResult {
   trialId: string;
   participantId: string;
@@ -47,6 +57,7 @@ export interface FamilyResult {
   age: number;
   boardWidth: number;
   boardHeight: number;
+  workspace: ExperimentWorkspace;
   anchor: ExperimentResultAnchor;
   completedAt: string;
   items: ExperimentResultItem[];
