@@ -18,7 +18,10 @@ export async function loadTrialsManifest(
     throw new Error("trials.json must contain at least one family entry.");
   }
 
-  return manifest;
+  return {
+    ...manifest,
+    families: [...manifest.families].reverse(),
+  };
 }
 
 export async function loadFamilyCsvFromUrl(
